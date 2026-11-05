@@ -21,8 +21,14 @@
 /* ------------------------------------------------------------------------- */
 // Each lane is an independent key/output feature; no horizontal reductions.
 typedef float Vec __attribute__((vector_size(64)));
+#if defined(__AVX512F__)
 static inline Vec load16(const float *p) { Vec v; memcpy(&v, p, sizeof v); return v; }
 static inline void store16(float *p, Vec v) { memcpy(p, &v, sizeof v); }
+#else
+// Keep wide vector values local when the target lacks the AVX-512 vector ABI.
+#define load16(p) __extension__ ({ Vec loaded16; memcpy(&loaded16, (p), sizeof loaded16); loaded16; })
+#define store16(p, v) do { Vec stored16 = (v); memcpy((p), &stored16, sizeof stored16); } while (0)
+#endif
 
 static float *packed_keys(const float *K, int N, int d, int stride)
 {
