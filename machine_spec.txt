@@ -1,0 +1,27 @@
+# Machine specification (Q1)
+CPU model                       : AMD Ryzen 7 7840HS (HP OMEN 16-xd0017AX)
+Microarchitecture               : AMD Zen 4 (Phoenix)
+Physical cores                  : 8
+Logical cores (hardware threads): 16 (2 per core)
+Performance / efficiency cores  : 8 homogeneous Zen 4 cores; no separate efficiency cores
+Base clock (GHz)                : 3.80 (AMD specification)
+Max single-core clock (GHz)     : up to 5.10 (AMD); observed load estimate 4.79
+All-core clock under load (GHz) : about 4.56 (host performance-counter estimate, 8-thread FMA load)
+SIMD instruction set and width  : AVX2 256 bit, AVX-512 512 bit over 256-bit execution paths
+FMA units per core              : 2 x 256-bit FP FMA pipes, 32 FP32 FLOP/cycle total
+Vector registers per core       : 32 architectural ZMM registers per thread with AVX-512
+L1 data cache (per core)        : 32 KiB
+L2 cache (size, shared by)      : 1 MiB per core, 8 MiB total; shared by its SMT siblings
+L3 cache (size, shared by)      : 16 MiB shared by all 8 cores
+Cache line size (bytes)         : 64
+RAM size (GB)                   : 32 GiB (2 x 16 GiB)
+RAM type, speed (MT/s), channels: DDR5-5600 SO-DIMM, 2 x 64-bit channels
+Operating system                : Windows 11 build 26200; Ubuntu 24.04 in WSL2, kernel 6.6.87.2
+Compiler and version            : Ubuntu Clang 20.1.2 with LLVM OpenMP; -O3 -march=native
+
+# Derived (decimal GB and GFLOP)
+Peak FP32 GFLOP/s, one core     : 163.20 at rated max boost
+Peak FP32 GFLOP/s, all cores    : 1166.45 using estimated all-core load clock; SMT does not double pipes
+Memory bandwidth (GB/s)         : 89.60 theoretical; measured triad payload 37.09 (1T), 39.88 (8T)
+Ridge point, one core (FLOP/B)  : 4.40 with measured bandwidth (1.82 at theoretical bandwidth)
+Ridge point, all cores (FLOP/B)  : 29.25 with measured bandwidth (13.02 at theoretical bandwidth)
